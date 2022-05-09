@@ -66,11 +66,15 @@ def read_conf(conf_file):
 				continue
 			fs = l.split()
 			key = (int(fs[0]), int(fs[1]))
+			second_key = None
 			if fs[0] == '144':
 				val = (int(fs[2]), int(fs[3]))
+				second_key = (128, int(fs[1]))
 			else:
 				val = (int(fs[2]), fs[3])
 			table[key] = val
+			if second_key is not None:
+				table[second_key] = val
 			vid = int(fs[2])
 			if not vid in vids:
 				vids.append(vid)
@@ -156,7 +160,7 @@ def joystick_run():
 					vjoy.SetBtn(reading, opt[0], int(opt[1]))
 				elif key[0] == 128:
 					# A button off input
-					vjoy.SetBtn(reading, opt[0], int(opt[1]))
+					vjoy.SetBtn(0, opt[0], int(opt[1]))
 			time.sleep(0.1)
 	except:
 		#traceback.print_exc()
